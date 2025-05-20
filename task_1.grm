@@ -1,0 +1,41 @@
+!!Terminals
+Identifier       = Letter (Letter | Digit)*
+Number           = Digit+
+StringLiteral    = '"' {Printable - '"'}* '"'
+Print            = 'print'
+Assign           = '='
+Plus             = '+'
+Minus            = '-'
+Times            = '*'
+Divide           = '/'
+OpenParen        = '('
+CloseParen       = ')'
+EOL              = '
+' | '
+'
+
+!!Rules
+<Start> ::= <Statements>
+
+<Statements> ::= <Statement> <Statements> 
+               | ε
+
+<Statement> ::= <Assignment> EOL
+              | <PrintStmt> EOL
+
+<Assignment> ::= Identifier Assign <Expression>
+
+<PrintStmt> ::= Print OpenParen <Expression> CloseParen
+
+<Expression> ::= <Expression> Plus <Term>
+               | <Expression> Minus <Term>
+               | <Term>
+
+<Term> ::= <Term> Times <Factor>
+         | <Term> Divide <Factor>
+         | <Factor>
+
+<Factor> ::= Identifier
+           | Number
+           | StringLiteral
+           | OpenParen <Expression> CloseParen
